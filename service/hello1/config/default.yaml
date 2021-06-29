@@ -1,0 +1,4 @@
+hello2Url: "http://localhost:3001"
+hello2ServiceName: "http://hello2"
+hello2Uri:
+  hello2: "/api/hello2"
