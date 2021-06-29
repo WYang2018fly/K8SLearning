@@ -5,6 +5,7 @@ const router = new Router({
 });
 const axios = require("axios");
 const config = require("config");
+const os = require("os");
 
 router.get("/", async (ctx) => {
   ctx.body = "get request";
@@ -12,14 +13,31 @@ router.get("/", async (ctx) => {
 });
 
 router.get("/hello1", async (ctx) => {
-  const serviceName = "hello1";
+  function getIPAdress() {
+    var interfaces = os.networkInterfaces();
+    for (var devName in interfaces) {
+      var iface = interfaces[devName];
+      for (var i = 0; i < iface.length; i++) {
+        var alias = iface[i];
+        if (
+          alias.family === "IPv4" &&
+          alias.address !== "127.0.0.1" &&
+          !alias.internal
+        ) {
+          return alias.address;
+        }
+      }
+    }
+  }
+  const myHost = getIPAdress();
+
   console.log(
-    `request => ${config.hello2Url}${config.hello2Uri.hello2}?name=${serviceName}`
+    `request => ${config.hello2ServiceName}${config.hello2Uri.hello2}?host=${myHost}`
   );
 
   let result = await axios({
     method: "get",
-    url: `${config.hello2ServiceName}${config.hello2Uri.hello2}?name=${serviceName}`,
+    url: `${config.hello2ServiceName}${config.hello2Uri.hello2}?host=${myHost}`,
     headers: {},
   });
 

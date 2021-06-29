@@ -3,6 +3,7 @@ const { Test } = require("../model");
 const router = new Router({
   prefix: "/api",
 });
+const os = require("os");
 
 router.get("/", async (ctx) => {
   ctx.body = "get request";
@@ -16,11 +17,29 @@ router.post("/", async (ctx) => {
 });
 
 router.get("/hello2", async (ctx) => {
-  const requestServiceName = ctx.query.name;
+  function getIPAdress() {
+    var interfaces = os.networkInterfaces();
+    for (var devName in interfaces) {
+      var iface = interfaces[devName];
+      for (var i = 0; i < iface.length; i++) {
+        var alias = iface[i];
+        if (
+          alias.family === "IPv4" &&
+          alias.address !== "127.0.0.1" &&
+          !alias.internal
+        ) {
+          return alias.address;
+        }
+      }
+    }
+  }
+  const myHost = getIPAdress();
+
+  const requestServiceIp = ctx.query.host;
   console.log("reponse => hello1");
   ctx.body = {
-    requestServiceName,
-    responseServiceName: "hello2",
+    requestServiceIp,
+    responseServiceIp: myHost,
   };
   ctx.status = 200;
 });

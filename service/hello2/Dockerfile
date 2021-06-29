@@ -12,7 +12,7 @@ RUN apt update \
     && echo ${TZ} > /etc/timezone \
     && dpkg-reconfigure --frontend noninteractive tzdata \
     && rm -rf /var/lib/apt/lists/*
-EXPOSE 3000
+EXPOSE 3001
 CMD [ "node", "./index.js" ]
 
 
