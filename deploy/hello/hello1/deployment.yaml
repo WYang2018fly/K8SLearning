@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello1
+  namespace: hello
+  labels:
+    app: hello1
+spec:
+  selector:
+    matchLabels:
+      app: hello1
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: hello1
+    spec:
+      containers:
+        - name: hello1
+          image: shgbit.tencentcloudcr.com/hello/hello1:0.0.3
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          # volumeMounts:
+          #   - name: hello1-config-volume
+          #     mountPath: /etc/service
+          # env:
+          #   - name: PORT
+          #     value: "3000"
+          #   - name: NODE_ENV
+          #     value: "production"
+          #   - name: NODE_CONFIG_DIR
+          #     value: "/etc/service"
+      # volumes:
+      #   - name: hello1-config-volume
+      #     configMap:
+      #       name: hello1-config
+      #       items:
+      #         - key: hello1-test.yaml
+      #           path: hello1-test.yaml
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: registrykey-tencentcloud
