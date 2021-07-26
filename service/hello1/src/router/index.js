@@ -32,16 +32,23 @@ router.get("/hello1", async (ctx) => {
   const myHost = getIPAdress();
 
   console.log(
-    `request => ${config.hello2ServiceName}${config.hello2Uri.hello2}?host=${myHost}`
+    `[${process.env.NODE_ENV}] request => ${
+      process.env.NODE_ENV === "production"
+        ? config.hello2ServiceName
+        : config.hello2Url
+    }${config.hello2Uri.hello2}?host=${myHost}`
   );
 
   let result = await axios({
     method: "get",
-    url: `${config.hello2ServiceName}${config.hello2Uri.hello2}?host=${myHost}`,
+    url: `${
+      process.env.NODE_ENV === "production"
+        ? config.hello2ServiceName
+        : config.hello2Url
+    }${config.hello2Uri.hello2}?host=${myHost}`,
     headers: {},
   });
-
-  ctx.body = result.data;
+  ctx.body = { data: result.data, environment: process.env.NODE_ENV };
   ctx.status = 200;
 });
 

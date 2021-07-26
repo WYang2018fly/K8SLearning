@@ -1,6 +1,7 @@
-FROM node:latest
+FROM node:lts
 ENV TZ=Asia/Shanghai \
-    DEBIAN_FRONTEND=noninteractive
+    DEBIAN_FRONTEND=noninteractive \
+    NODE_ENV=production
 WORKDIR /service
 COPY package.json /service
 COPY . /service

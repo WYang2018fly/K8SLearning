@@ -5,9 +5,10 @@
   "author": "wangyang <wyang@shgbit.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "export NODE_ENV='development' && nodemon index.js"
   },
   "dependencies": {
+    "@koa/cors": "^3.1.0",
     "axios": "^0.21.1",
     "config": "^3.3.6",
     "js-yaml": "^4.1.0",
